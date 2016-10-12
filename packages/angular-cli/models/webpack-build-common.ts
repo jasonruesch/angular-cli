@@ -4,7 +4,7 @@ import {GlobCopyWebpackPlugin} from '../plugins/glob-copy-webpack-plugin';
 import {BaseHrefWebpackPlugin} from '@angular-cli/base-href-webpack';
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const autoprefixer = require('autoprefixer');
 
 export function getWebpackCommonConfig(
   projectRoot: string,
@@ -131,6 +131,13 @@ export function getWebpackCommonConfig(
       new GlobCopyWebpackPlugin({
         patterns: appConfig.assets,
         globOptions: {cwd: appRoot, dot: true, ignore: '**/.gitkeep'}
+      }),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          postcss: function () {
+            return [autoprefixer];
+          }
+        }
       })
     ],
     node: {
